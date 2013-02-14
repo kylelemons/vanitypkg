@@ -1,0 +1,117 @@
+{{define "nopkg"}}
+<div class="hero-unit">
+  <h2>Error</h2>
+  <p>Unknown package <strong>{{.}}</strong>.</p>
+  <a class="btn btn-error btn-danger" href="http://godoc.org/?q={{.}}">Search godoc.org</a>
+</div>
+{{end}}
+
+{{define "redirect"}}
+<div class="hero-unit">
+  <h2>Thanks for visiting!</h2>
+  <p>You are being redirected to <pre>{{.}}</pre>.</p>
+  <a class="btn btn-success btn-small" href="{{.}}">Go There Now</a>
+</div>
+{{end}}
+
+{{define "main"}}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+{{range .Projects}}
+<meta name="go-import" content="{{.Import}} {{.VCS}} {{.Repo}}" />{{end}}
+
+<link rel='stylesheet' type='text/css' href='/static/bootstrap/css/bootstrap.css' />
+<link rel='stylesheet' type='text/css' href='/static/vanitypkg.css' />
+{{if .gaID}}
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', '{{.gaID}}']);
+  _gaq.push(['_trackPageview']);
+{{if .gaAction}}
+  _gaq.push(['_trackEvent', 'Package', '{{.gaAction}}'{{if .gaArg}}, '{{.gaArg}}'{{end}}]);
+{{end}}
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+{{end}}
+</head>
+<body>
+<!-- top bar -->
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="brand" href="/">KyleLemons.net</a>
+      <ul class="nav">
+        <li><a href="/">Home</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li class="active"><a href="/go/">Go Projects</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+{{if .NoPkg}}
+  {{template "nopkg" .NoPkg}}
+{{else}}{{if .RedirectURL}}
+  {{template "redirect" .RedirectURL}}
+{{else}}
+  <div class="hero-unit">
+    <h2>Welcome</h2>
+    <p>
+      This is a list of the <a href="http://golang.org">Go</a> projects I've created
+      that are <a href='http://golang.org/doc/go1.html'>up-to-date</a>
+      and that I think are ready for general consumption.
+    </p>
+    <p>
+      Most of them are hosted over at <a href="https://github.com">GitHub</a>,
+      and the online documentation is provided by Gary Burd's awesome <a href="http://godoc.org">GoPkgDoc</a>.
+    </p>
+  </div>
+{{end}}{{end}}
+  </div>
+  <div class="row">
+    <h2>Projects:</h2>
+    <p>
+      I encourage users of my projects to send me pull requests, feature requests, and bug reports.
+      My eternal thanks to those of you who have already contacted me about my projects and helped to improve them.
+      If you are looking for one of <a href="https://github.com/kylelemons/">my other projects</a> and it's not here,
+      let me know and I'll see if I can't make it presentable enough to be included in this list.
+    </p>
+  </div>
+  <div class="row">
+    <table class="table table-bordered table-striped">
+      <tr>
+        <th>
+          Project Documentation
+        </th>
+        <th>
+          Description
+        </th>
+        <th>
+          Links
+        </th>
+      </tr>
+{{range .Projects}}
+      <tr>
+        <td><a href="http://godoc.org/{{.Import}}">{{.Import}}</a></td>
+        <td>{{.Desc}}</td>
+        <td>
+          {{with .Links}}
+          <ul class="linklist">{{range $title, $url := .}}
+            <li><a href='{{$url}}'>{{$title}}</a></li>{{end}}
+          </ul>
+          {{else}}&nbsp;{{end}}
+        </td>
+      </tr>
+{{end}}
+    </table>
+  </div>
+</div>
+</body>
+</html>
+{{end}}
