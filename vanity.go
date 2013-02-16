@@ -5,10 +5,13 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"os"
 	"path/filepath"
 )
 
 var (
+	logFile = flag.String("log", "vanitypkg.log", "Log file")
+
 	templateDir = flag.String("templates", ".", "Directory containing templates")
 	httpAddr    = flag.String("http", ":8002", "Address on which to listen for http connections")
 )
@@ -92,6 +95,12 @@ func root(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	flag.Parse()
+
+	logOut, err := os.OpenFile(*logFile, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0644)
+	if err != nil {
+		log.Fatalf("open log: %s", err)
+	}
+	log.SetOutput(logOut)
 
 	//strip non [-_A-Za-z0-9/]
 	//check get param 'go-get'
