@@ -9,7 +9,7 @@
 {{define "redirect"}}
 <div class="hero-unit">
   <h2>Thanks for visiting!</h2>
-  <p>You are being redirected to <pre>{{.}}</pre>.</p>
+  <p>You are being redirected to <tt>{{.}}</tt> ...</p>
   <a class="btn btn-success btn-small" href="{{.}}">Go There Now</a>
 </div>
 {{end}}
@@ -20,26 +20,12 @@
 <head>
 <title>KyleLemons.net - Go package listing</title>
 {{range .Projects}}
-<meta name="go-import" content="{{.Import}} {{.VCS}} {{.Repo}}" />{{end}}
-<meta charset='utf-8'>
+<meta name="go-import" content="{{.Import}} {{.VCS}} {{.Repo}}" />{{if .Links.Source}}
+<meta name="go-source" content="{{.Import}} {{.Links.Source}}" />{{end}}{{end}}
+<meta charset='utf-8' />
 
 <link rel='stylesheet' type='text/css' href='/static/bootstrap/css/bootstrap.css' />
 <link rel='stylesheet' type='text/css' href='/static/vanitypkg.css' />
-{{if .gaID}}
-<script type="text/javascript">
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', '{{.gaID}}']);
-  _gaq.push(['_trackPageview']);
-{{if .gaAction}}
-  _gaq.push(['_trackEvent', 'Package', '{{.gaAction}}'{{if .gaArg}}, '{{.gaArg}}'{{end}}]);
-{{end}}
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-</script>
-{{end}}
 </head>
 <body>
 <!-- top bar -->
@@ -98,22 +84,37 @@
           Links
         </th>
       </tr>
-{{range .Projects}}
+{{range $short, $proj := .Projects}}{{if not .Hidden}}
       <tr>
         <td><a href="http://godoc.org/{{.Import}}">{{.Import}}</a></td>
         <td>{{.Desc}}</td>
         <td>
           {{with .Links}}
           <ul class="linklist">{{range $title, $url := .}}
-            <li><a href='{{$url}}'>{{$title}}</a></li>{{end}}
+            <li><a href='{{$url}}'
+              onClick="_gaq.push(['_trackEvent', 'Package', '{{$title}}', '{{$short}}']);"
+              >{{$title}}</a></li>{{end}}
           </ul>
           {{else}}&nbsp;{{end}}
         </td>
       </tr>
-{{end}}
+{{end}}{{end}}
     </table>
   </div>
 </div>
 </body>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', '{{.gaID}}']);
+  _gaq.push(['_trackPageview']);
+{{if .gaAction}}
+  _gaq.push(['_trackEvent', 'Package', '{{.gaAction}}'{{if .gaArg}}, '{{.gaArg}}'{{end}}]);
+{{end}}
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
 </html>
 {{end}}

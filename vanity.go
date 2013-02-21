@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 var (
@@ -15,6 +16,8 @@ var (
 	templateDir = flag.String("templates", ".", "Directory containing templates")
 	httpAddr    = flag.String("http", ":8002", "Address on which to listen for http connections")
 )
+
+const GoDoc = "http://godoc.org/"
 
 func loadTemplates() (*template.Template, error) {
 	return template.ParseGlob(filepath.Join(*templateDir, "*.tpl.*"))
@@ -31,6 +34,7 @@ type Project struct {
 	VCS    string // version control system (e.g. "git", "hg", "svn", "bzr")
 	Repo   string // repository checkout URI (e.g. "git://kylelemons.net/go/gofr.git")
 
+	Hidden bool // not shown to humans
 }
 
 type AnalyticsInfo struct {
@@ -38,21 +42,36 @@ type AnalyticsInfo struct {
 	Host string
 }
 
-var GAID = "UA-30511466-1"
+//var GAID = "UA-30511466-1"
+var GAID = "UA-1350650-1"
 
 var Projects = map[string]Project{
 	"rx": {
 		Name: "rx",
 		Desc: "Package version and dependency manager",
 		Links: map[string]string{
-			"GitHub":       "https://github.com/kylelemons/rx",
+			"Source":       "https://github.com/kylelemons/rx",
 			"Report Issue": "https://github.com/kylelemons/rx/issues",
 			"Blog Post":    "http://kylelemons.net/blog/2012/04/22-rx-for-go-headaches.article",
 		},
 
 		Import: "kylelemons.net/go/rx",
 		VCS:    "git",
-		Repo:   "git://github.com/kylelemons/rx.git",
+		//Repo:   "git://github.com/kylelemons/rx.git",
+		Repo: "https://github.com/kylelemons/rx",
+	},
+	"atom": {
+		Name: "atom",
+		Desc: "Atom Syndication",
+		Links: map[string]string{
+			"Source": "http://kylelemons.net/browse/gitweb.cgi/go/atom.git/tree",
+		},
+
+		Import: "kylelemons.net/go/atom",
+		VCS:    "git",
+		Repo:   "git://kylelemons.net/go/atom.git",
+
+		Hidden: true,
 	},
 	/*
 	   'rpcgen' => array(
@@ -84,8 +103,18 @@ func root(w http.ResponseWriter, r *http.Request) {
 
 	data := map[string]interface{}{
 		"Projects": Projects,
-		//"gaID":     GAID,
-		//"gaAction": "List",
+		"gaID":     GAID,
+	}
+
+	if sub := strings.TrimPrefix(r.URL.Path, "/"); sub == "" {
+		data["gaAction"] = "List"
+	} else if proj, ok := Projects[sub]; ok {
+		data["gaAction"] = "Documentation"
+		data["gaArg"] = sub
+
+		redir := GoDoc + proj.Import
+		data["RedirectURL"] = redir
+		w.Header().Set("Refresh", "3;url="+redir)
 	}
 
 	if err := tpl.ExecuteTemplate(w, "main", data); err != nil {
