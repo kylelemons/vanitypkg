@@ -30,7 +30,7 @@
 		"repo":   "git://kylelemons.net/go/vanitypkg.git",
 		"source": "http://kylelemons.net/browse/gitweb.cgi/go/vanitypkg.git/blob/master:/{file}#{line}",
 		"links": {
-			"Source": "http://kylelemons.net/browse/gitweb.cgi/go/atom.git/tree"
+			"Source": "http://kylelemons.net/browse/gitweb.cgi/go/vanitypkg.git/tree"
 		}
 	}
 }
