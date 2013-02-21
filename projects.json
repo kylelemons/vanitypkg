@@ -1,0 +1,25 @@
+{
+  "rx": {
+    "name":   "rx",
+    "desc":   "Package version and dependency manager",
+    "import": "kylelemons.net/go/rx",
+    "vcs":    "git",
+    "repo":   "https://github.com/kylelemons/rx",
+    "links": {
+			"Source":       "https://github.com/kylelemons/rx",
+			"Report Issue": "https://github.com/kylelemons/rx/issues",
+			"Blog Post":    "http://kylelemons.net/blog/2012/04/22-rx-for-go-headaches.article"
+    }
+  },
+  "atom": {
+    "name":   "atom",
+    "desc":   "Atom syndication",
+		"import": "kylelemons.net/go/atom",
+		"vcs":    "git",
+		"repo":   "git://kylelemons.net/go/atom.git",
+		"source": "http://kylelemons.net/browse/gitweb.cgi/go/atom.git/blob/master:/{file}#{line}",
+    "links": {
+			"Source": "http://kylelemons.net/browse/gitweb.cgi/go/atom.git/tree"
+    }
+  }
+}

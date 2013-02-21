@@ -20,8 +20,8 @@
 <head>
 <title>KyleLemons.net - Go package listing</title>
 {{range .Projects}}
-<meta name="go-import" content="{{.Import}} {{.VCS}} {{.Repo}}" />{{if .Links.Source}}
-<meta name="go-source" content="{{.Import}} {{.Links.Source}}" />{{end}}{{end}}
+<meta name="go-import" content="{{.Import}} {{.VCS}} {{.Repo}}" />{{if .Source}}
+<meta name="go-source" content="{{.Import}} {{.Source}}" />{{end}}{{end}}
 <meta charset='utf-8' />
 
 <link rel='stylesheet' type='text/css' href='/static/bootstrap/css/bootstrap.css' />
