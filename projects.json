@@ -32,5 +32,60 @@
 		"links": {
 			"Source": "http://kylelemons.net/browse/gitweb.cgi/go/vanitypkg.git/tree"
 		}
+	},
+	"blog": {
+		"name":   "blog",
+		"desc":   "Static blog server",
+		"import": "kylelemons.net/go/blog",
+		"vcs":    "git",
+		"repo":   "git://kylelemons.net/go/blog.git",
+		"source": "http://kylelemons.net/browse/gitweb.cgi/go/blog.git/blob/master:/{file}#{line}",
+		"links": {
+			"Source": "http://kylelemons.net/browse/gitweb.cgi/go/blog.git/tree"
+		}
+	},
+	"daemon": {
+		"name":   "daemon",
+		"desc":   "Daemon utilities",
+		"import": "kylelemons.net/go/daemon",
+		"vcs":    "git",
+		"repo":   "git://kylelemons.net/go/daemon.git",
+		"source": "http://kylelemons.net/browse/gitweb.cgi/go/daemon.git/blob/master:/{file}#{line}",
+		"links": {
+			"Source": "http://kylelemons.net/browse/gitweb.cgi/go/daemon.git/tree"
+		}
+	},
+	"esource": {
+		"name":   "esource",
+		"desc":   "EventSource server library",
+		"import": "kylelemons.net/go/esource",
+		"vcs":    "git",
+		"repo":   "git://kylelemons.net/go/esource.git",
+		"source": "http://kylelemons.net/browse/gitweb.cgi/go/esource.git/blob/master:/{file}#{line}",
+		"links": {
+			"Source": "http://kylelemons.net/browse/gitweb.cgi/go/esource.git/tree"
+		}
+	},
+	"gofr": {
+		"name":   "gofr",
+		"desc":   "Go Frontend utilities",
+		"import": "kylelemons.net/go/gofr",
+		"vcs":    "git",
+		"repo":   "git://kylelemons.net/go/gofr.git",
+		"source": "http://kylelemons.net/browse/gitweb.cgi/go/gofr.git/blob/master:/{file}#{line}",
+		"links": {
+			"Source": "http://kylelemons.net/browse/gitweb.cgi/go/gofr.git/tree"
+		}
+	},
+	"rest": {
+		"name":   "rest",
+		"desc":   "REST Server library",
+		"import": "kylelemons.net/go/rest",
+		"vcs":    "git",
+		"repo":   "git://kylelemons.net/go/rest.git",
+		"source": "http://kylelemons.net/browse/gitweb.cgi/go/rest.git/blob/master:/{file}#{line}",
+		"links": {
+			"Source": "http://kylelemons.net/browse/gitweb.cgi/go/rest.git/tree"
+		}
 	}
 }
